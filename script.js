@@ -1,17 +1,19 @@
-
 async function setupStream(){
     try{
-        const stream = await navigator.mediaDevices.getDisplayMedia({
+        const constraints = {
             video: {
                 mediaSource: 'screen'
             },
             audio: {
-                echoCancellation: false,  // Enable noise cancellation
-                noiseSuppression: false, // Enable automatic noise suppression
-                sampleRate: 18000,         // Set the audio sample rate to 48 kHz
-                volume: 2.0               // Set the audio volume to maximum. Adjust as needed.
-            }  // Enable audio capture as well. This might be a privacy concern. Adjust as needed.
-        })
+                echoCancellation: false,
+                noiseSuppression: false,
+                sampleRate: 18000,
+                volume: 2.0
+            }
+        };
+
+        const stream = await navigator.mediaDevices.getDisplayMedia(constraints);
+
         const audioElement = document.querySelector('.audio');
         audioElement.srcObject = stream;
         audioElement.play();
@@ -20,4 +22,5 @@ async function setupStream(){
     }
 }
 
-window.addEventListener("load",setupStream());
+// Ensure setupStream is called when the window is fully loaded
+window.addEventListener("load", setupStream);
